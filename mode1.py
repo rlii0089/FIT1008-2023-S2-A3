@@ -1,4 +1,5 @@
 from data_structures.bst import BinarySearchTree
+from data_structures.linked_stack import LinkedStack
 from island import Island
 
 
@@ -11,25 +12,12 @@ class Mode1Navigator:
         """
         Student-TODO: Best/Worst Case
         """
-        island_bst = BinarySearchTree()
+        self.island_bst = BinarySearchTree()
         for island in islands:
             if island.marines > 0:
-                island_bst.__setitem__((island.money / island.marines),
-                                       island
-                                       )
+                self.island_bst.__setitem__(island.money_per_marine(), island)
 
-        self.island_bst = island_bst
         self.crew = crew
-
-    def find_max_money_island(self):
-        current_node = self.island_bst.root
-
-        if current_node is None:
-            return None
-
-        while current_node.right:
-            current_node = current_node.right
-        return current_node
 
     def select_islands(self) -> list[tuple[Island, int]]:
         """
@@ -38,18 +26,16 @@ class Mode1Navigator:
         selected_islands = []
         current_crew = self.crew
 
-        while current_crew > 0:
-            max_money_island = self.find_max_money_island()
-            if max_money_island is None:
-                break
-            elif max_money_island.item.marines == 0:
-                break
+        island_stack = LinkedStack()
+        island_in_order_iterator = self.island_bst.__iter__()
+        for i in range(self.island_bst.__len__()):
+            island_stack.push(island_in_order_iterator.__next__().item)
 
-            crew_to_send = min(current_crew, max_money_island.item.marines)
-            selected_islands.append((max_money_island.item, crew_to_send))
+        while current_crew > 0 and not island_stack.is_empty():
+            current_island = island_stack.pop()
+            crew_to_send = min(current_crew, current_island.marines)
+            selected_islands.append((current_island, crew_to_send))
             current_crew -= crew_to_send
-
-            self.island_bst.__delitem__(max_money_island.key)
 
         return selected_islands
 

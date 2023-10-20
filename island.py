@@ -47,5 +47,5 @@ class Island:
             RandomGen.randint(0, 300),
         )
 
-    def money_marine_ratio(self):
+    def money_per_marine(self):
         return self.money / self.marines
