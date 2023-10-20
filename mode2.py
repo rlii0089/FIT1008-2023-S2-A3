@@ -10,14 +10,23 @@ class Mode2Navigator:
     """
 
     def __init__(self, n_pirates: int) -> None:
+        """
+        Student-TODO: Best/Worst Case
+        """
         self.n_pirates = n_pirates
         self.islands = BinarySearchTree()
 
     def add_islands(self, islands: list[Island]) -> None:
+        """
+        Student-TODO: Best/Worst Case
+        """
         for island in islands:
             self.islands.__setitem__(island.name, island)
 
     def simulate_day(self, crew: int) -> list[tuple[Island, int]]:
+        """
+        Student-TODO: Best/Worst Case
+        """
         choices = []
         selected_islands = LinkedStack()
 
