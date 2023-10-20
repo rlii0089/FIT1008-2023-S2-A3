@@ -43,37 +43,20 @@ class Mode1Navigator:
         """
         Student-TODO: Best/Worst Case
         """
-        possible_amounts_of_money = []
-
-        # Create a dictionary to keep track of island states (money and marines) before each calculation
-        original_island_states = {island: (island.money, island.marines) for island in self.island_bst.values()}
+        max_money_per_crew = []
 
         for crew in crew_numbers:
-            current_crew = crew
-            total_money_earned = 0
+            total_money = 0
+            self.crew = crew
+            if self.crew < 0:
+                max_money_per_crew.append(0)
+            else:
+                selected_islands = self.select_islands()
+                for island, crew_sent in selected_islands:
+                    total_money += min(island.money * crew_sent / island.marines, island.money)
+                max_money_per_crew.append(total_money)
 
-            for island in self.island_bst.values():
-                if current_crew <= 0:
-                    break
-                if island.marines == 0:
-                    continue
-
-                crew_to_send = min(current_crew, island.marines)
-                money_earned = min((crew_to_send * island.money) / island.marines, island.money)
-
-                total_money_earned += money_earned
-                island.marines -= crew_to_send
-                island.money -= money_earned
-                current_crew -= crew_to_send
-
-            # Append the total money earned for the current crew size
-            possible_amounts_of_money.append(total_money_earned)
-
-            # Restore the original island states
-            for island in self.island_bst.values():
-                island.money, island.marines = original_island_states[island]
-
-        return possible_amounts_of_money
+        return max_money_per_crew
 
     def update_island(self, island: Island, new_money: float, new_marines: int) -> None:
         """
