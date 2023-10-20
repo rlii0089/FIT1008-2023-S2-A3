@@ -5,12 +5,34 @@ from island import Island
 
 class Mode1Navigator:
     """
-    Student-TODO: short paragraph as per https://edstem.org/au/courses/12108/lessons/42810/slides/294117
+    Navigator for plundering islands to maximise crew's earnings.
+
+    This class is responsible for selecting islands to plunder based on the best money-to-marine ratio
+    to maximise the earnings of the crew. It also allows for calculations of earnings with different
+    crew configurations and updating island information.
+
+    Data Structures used:
+    - BinarySearchTree: Used to efficiently store and manage islands with their money-to-marine ratio.
+
+    An example:
+    If the crew has 100 pirates and there are islands A, B, and C with money and marine values as follows:
+    - Island A: Money = 400, Marines = 100
+    - Island B: Money = 300, Marines = 150
+    - Island C: Money = 100, Marines = 5
+
+    The navigator will select islands based on the best money-to-marine ratio. With 100 pirates,
+    it might choose to send 50 pirates to Island A, 50 pirates to Island B, and earn the maximum possible money.
     """
 
     def __init__(self, islands: list[Island], crew: int) -> None:
         """
-        Student-TODO: Best/Worst Case
+        Initialise the Navigator with a list of islands and the crew size.
+
+        We use a BinarySearchTree to store islands with their money-to-marine ratio.
+        Insertion into a BinarySearchTree is O(log(N)) on average, giving us a worst-case complexity of O(Nlog(N))
+        or less.
+
+        Worst Case Complexity: O(Nlog(N)) or less, where N is the length of the 'islands' list.
         """
         self.island_bst = BinarySearchTree()
         for island in islands:
@@ -21,7 +43,15 @@ class Mode1Navigator:
 
     def select_islands(self) -> list[tuple[Island, int]]:
         """
-        Student-TODO: Best/Worst Case
+        Select islands to plunder based on the best money-to-marine ratio.
+
+        We iterate through the islands, and for each iteration, it selects the island with the
+        best money-to-marine ratio. The BinarySearchTree is used to efficiently find the island with the best ratio,
+        and the operation is O(log(N)) in the worst case. The loop iterates at most N times, leading to a worst-case
+        complexity of O(Nlog(N)) or less. The best-case complexity is O(log(N)) or less.
+
+        Worst Case Complexity: O(Nlog(N)) or less, where N is the number of islands.
+        Best Case Complexity: O(log(N)) or less.
         """
         selected_islands = []
         current_crew = self.crew
@@ -41,7 +71,20 @@ class Mode1Navigator:
 
     def select_islands_from_crew_numbers(self, crew_numbers: list[int]) -> list[float]:
         """
-        Student-TODO: Best/Worst Case
+        Calculate earnings with different crew configurations.
+
+        We calculate the earnings with different crew sizes, and for each crew
+        size, it iterates through the islands using a loop. For C different crew sizes and N islands, it results in a
+        complexity of O(C*N).
+
+        Worst Case Complexity: O(C*N), where C is the length of 'crew_numbers' and N is the number of islands.
+        Best Case Complexity: O(N), where N is the number of islands.
+
+        Parameters:
+        - crew_numbers: A list of crew sizes to calculate earnings for.
+
+        Returns:
+        A list of earnings corresponding to each crew size in 'crew_numbers'.
         """
         max_money_per_crew = []
 
@@ -59,7 +102,18 @@ class Mode1Navigator:
 
     def update_island(self, island: Island, new_money: float, new_marines: int) -> None:
         """
-        Student-TODO: Best/Worst Case
+        Update the money and marine values of an island.
+
+        We update the money and marines for an island, and it involves no searching or
+        iteration. Therefore, it has a complexity of O(1).
+
+        Worst Case Complexity: O(1)
+        Best Case Complexity: O(1)
+
+        Parameters:
+        - island: The island to update.
+        - new_money: The new money value for the island.
+        - new_marines: The new marine count for the island.
         """
         island.money = new_money
         island.marines = new_marines

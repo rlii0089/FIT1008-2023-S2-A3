@@ -11,8 +11,7 @@ class Mode2Navigator:
 
     def __init__(self, n_pirates: int) -> None:
         self.n_pirates = n_pirates
-        self.islands = BinarySearchTree()  # Binary search tree for islands
-        self.pirates = MaxHeap(self.islands.__len__())  # Max heap for pirates
+        self.islands = BinarySearchTree()
 
     def add_islands(self, islands: list[Island]) -> None:
         for island in islands:
@@ -20,18 +19,14 @@ class Mode2Navigator:
 
     def simulate_day(self, crew: int) -> list[tuple[Island, int]]:
         choices = []
-
-        # Create a linked list to keep track of the selected islands for the current day
         selected_islands = LinkedStack()
 
-        # Select islands for each pirate
         for _ in range(self.n_pirates):
             max_score = -1
             chosen_island = None
             crew_to_send = 0
 
             for island in self.islands:
-                # Calculate the score for selecting the island with given crew
                 remaining_crew = self.n_pirates * crew
                 money_looted = min((crew * island.item.money) / island.item.marines, island.item.money)
                 score = 2 * crew - remaining_crew + money_looted
@@ -45,7 +40,6 @@ class Mode2Navigator:
                 choices.append((chosen_island, crew_to_send))
                 selected_islands.push(chosen_island)
 
-        # Update the state of the islands by decreasing money and marines
         while not selected_islands.is_empty():
             current_island = selected_islands.pop()
             current_island.item.money -= (current_island.item.marines * crew) // self.n_pirates
