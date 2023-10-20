@@ -46,15 +46,14 @@ class Mode1Navigator:
         max_money_per_crew = []
 
         for crew in crew_numbers:
-            total_money = 0
             self.crew = crew
-            if self.crew < 0:
-                max_money_per_crew.append(0)
-            else:
-                selected_islands = self.select_islands()
-                for island, crew_sent in selected_islands:
-                    total_money += min(island.money * crew_sent / island.marines, island.money)
-                max_money_per_crew.append(total_money)
+            selected_islands = self.select_islands()
+
+            total_money = 0
+            for island, crew_sent in selected_islands:
+                total_money += min(island.money * crew_sent / island.marines, island.money)
+
+            max_money_per_crew.append(total_money)
 
         return max_money_per_crew
 
