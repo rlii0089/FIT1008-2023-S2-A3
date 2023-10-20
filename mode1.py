@@ -32,6 +32,10 @@ class Mode1Navigator:
         Insertion into a BinarySearchTree is O(log(N)) on average, giving us a worst-case complexity of O(Nlog(N))
         or less.
 
+        Parameters:
+        - islands: A list of islands to plunder.
+        - crew: The number of pirates in the crew.
+
         Worst Case Complexity: O(Nlog(N)) or less, where N is the length of the 'islands' list.
         """
         self.island_bst = BinarySearchTree()
@@ -84,7 +88,7 @@ class Mode1Navigator:
         - crew_numbers: A list of crew sizes to calculate earnings for.
 
         Returns:
-        A list of earnings corresponding to each crew size in 'crew_numbers'.
+        - A list of earnings corresponding to each crew size in 'crew_numbers'.
         """
         max_money_per_crew = []
 
